@@ -13,4 +13,9 @@ public final class Dog extends DomesticAnimal {
         addCommand(Command.SIT);
         addCommand(Command.STAND);
     }
+
+    @Override
+    protected String getClassName() {
+        return "Собака";
+    }
 }

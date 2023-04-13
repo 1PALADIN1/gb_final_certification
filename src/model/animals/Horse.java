@@ -12,4 +12,9 @@ public final class Horse extends PackAnimal {
         // default every dog command
         addCommand(Command.GALLOP);
     }
+
+    @Override
+    protected String getClassName() {
+        return "Лошадь";
+    }
 }

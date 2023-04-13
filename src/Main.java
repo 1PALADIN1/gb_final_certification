@@ -22,6 +22,7 @@ import model.Animal;
 import model.animals.*;
 import view.ConsoleView;
 import view.CreatedAnimal;
+import view.TrainedAnimal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,24 +38,44 @@ public class Main {
         while (true) {
             switch (view.displayMainMenu()) {
                 case NEW_ANIMAL -> createNewAnimal();
-                case LOOKUP_ANIMALS -> {
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("Список животных:\n");
-                    if (animals.size() == 0) {
-                        sb.append("Пусто\n");
-                    }
-
-                    for (Animal animal : animals) {
-                        sb.append(animal.toString());
-                        sb.append("\n");
-                    }
-
-                    view.displayMessage(sb.toString());
-                }
+                case LOOKUP_ANIMALS -> lookupAnimals();
+                case TRAIN_ANIMAL -> trainAnimal();
                 case EXIT -> {
                     view.displayMessage("Bye bye!");
                     return;
                 }
+                default -> view.displayMessage("! Команда не поддерживается");
+            }
+        }
+    }
+
+    private static void lookupAnimals() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Список животных:\n");
+        if (animals.size() == 0) {
+            sb.append("Пусто\n");
+        }
+
+        for (Animal animal : animals) {
+            sb.append(animal.toString());
+            sb.append("\n");
+        }
+
+        view.displayMessage(sb.toString());
+    }
+
+    private static void trainAnimal() {
+        if (animals.size() == 0) {
+            view.displayMessage("Нет животных для тренировки!");
+            return;
+        }
+
+        TrainedAnimal trainedAnimal = view.trainAnimal(animals);
+        for (Animal animal : animals) {
+            if (animal.getId() == trainedAnimal.getAnimalID()) {
+                animal.addCommand(trainedAnimal.getCommand());
+                view.displayMessage("Животное успешно натренировано!");
+                break;
             }
         }
     }

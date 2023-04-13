@@ -1,10 +1,11 @@
 package view;
 
+import model.Animal;
+import model.Command;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public final class ConsoleView {
     public ConsoleView() {
@@ -77,8 +78,7 @@ public final class ConsoleView {
                     case 5 -> type = AnimalType.HAMSTER;
                     case 6 -> type = AnimalType.HORSE;
                     default -> {
-                        System.out.println("! Некорректный пункт меню. Попробуйте снова.");
-                        continue;
+                        throw new RuntimeException();
                     }
                 }
 
@@ -89,6 +89,68 @@ public final class ConsoleView {
         }
 
         return new CreatedAnimal(name, birthdate, type);
+    }
+
+    public TrainedAnimal trainAnimal(List<Animal> animals) {
+        int id;
+        while (true) {
+            System.out.println("Выберете животное (id), которое хотите натренировать:");
+            for (Animal animal : animals) {
+                System.out.println(animal.toString());
+            }
+
+            Scanner scanner = new Scanner(System.in);
+            try {
+                id = scanner.nextInt();
+
+                boolean found = false;
+                for (Animal animal : animals) {
+                    if (animal.getId() == id) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    throw new RuntimeException();
+                }
+
+                break;
+            } catch (Exception e) {
+                System.out.println("! Некорректный id животного. Попробуйте снова.");
+            }
+        }
+
+        Command command;
+        while (true) {
+            System.out.println("Выберете команду:");
+            System.out.println("1. Сидеть");
+            System.out.println("2. Лежать");
+            System.out.println("3. Стоять");
+            System.out.println("4. Голос");
+            System.out.println("5. Рысь");
+            System.out.println("6. Галоп");
+
+            Scanner scanner = new Scanner(System.in);
+            try {
+                int number = scanner.nextInt();
+                switch (number) {
+                    case 1 -> command = Command.SIT;
+                    case 2 -> command = Command.LIE;
+                    case 3 -> command = Command.STAND;
+                    case 4 -> command = Command.VOICE;
+                    case 5 -> command = Command.TROT;
+                    case 6 -> command = Command.GALLOP;
+                    default -> throw new RuntimeException();
+                }
+
+                break;
+            } catch (Exception e) {
+                System.out.println("! Некорректный id животного. Попробуйте снова.");
+            }
+        }
+
+        return new TrainedAnimal(id, command);
     }
 
     public void displayMessage(String message) {

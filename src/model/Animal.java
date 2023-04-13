@@ -1,8 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public abstract class Animal {
     private static int COUNTER = 1;
@@ -10,22 +8,18 @@ public abstract class Animal {
     private final AnimalType type;
     private final String name;
     private final Date birthday;
-    private final List<Command> commands;
+    private final Set<Command> commands;
 
     public Animal(AnimalType type, String name, Date birthday) {
         this.id = COUNTER++;
         this.type = type;
         this.name = name;
         this.birthday = birthday;
-        this.commands = new ArrayList<>();
+        this.commands = new HashSet<>();
     }
 
     public int getId() {
         return id;
-    }
-
-    public AnimalType getType() {
-        return type;
     }
 
     public String getName() {
@@ -36,13 +30,11 @@ public abstract class Animal {
         return birthday;
     }
 
-    public List<Command> getCommands() {
-        return commands;
-    }
-
     public void addCommand(Command command) {
         commands.add(command);
     }
+
+    protected abstract String getClassName();
 
     @Override
     public String toString() {
@@ -51,6 +43,8 @@ public abstract class Animal {
         sb.append(": ");
         sb.append(name);
         sb.append(" (");
+        sb.append(getClassName());
+        sb.append("|");
         sb.append(type);
         sb.append(")");
 

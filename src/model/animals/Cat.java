@@ -8,4 +8,9 @@ public final class Cat extends DomesticAnimal {
     public Cat(String name, Date birthday) {
         super(name, birthday);
     }
+
+    @Override
+    protected String getClassName() {
+        return "Кот";
+    }
 }
