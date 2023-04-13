@@ -18,19 +18,51 @@
     считать в ресурсе try, если при заведении животного заполнены все поля.
  */
 
+import model.Animal;
+import model.animals.*;
 import view.ConsoleView;
+import view.CreatedAnimal;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
+    private static ConsoleView view;
+    private static List<Animal> animals;
+
     public static void main(String[] args) {
-        ConsoleView view = new ConsoleView();
+        view = new ConsoleView();
+        animals = new ArrayList<>();
 
         while (true) {
             switch (view.displayMainMenu()) {
+                case NEW_ANIMAL -> createNewAnimal();
                 case EXIT -> {
                     view.displayMessage("Bye bye!");
                     return;
                 }
             }
         }
+    }
+
+    private static void createNewAnimal() {
+        CreatedAnimal createdAnimal = view.createNewAnimal();
+
+        Animal animal;
+        switch (createdAnimal.getType()) {
+            case CAMEL -> animal = new Camel(createdAnimal.getName(), createdAnimal.getBirthday());
+            case CAT -> animal = new Cat(createdAnimal.getName(), createdAnimal.getBirthday());
+            case DOG -> animal = new Dog(createdAnimal.getName(), createdAnimal.getBirthday());
+            case DONKEY -> animal = new Donkey(createdAnimal.getName(), createdAnimal.getBirthday());
+            case HAMSTER -> animal = new Hamster(createdAnimal.getName(), createdAnimal.getBirthday());
+            case HORSE -> animal = new Horse(createdAnimal.getName(), createdAnimal.getBirthday());
+            default -> {
+                view.displayMessage("! Уп-с: что-то пошло не так...");
+                return;
+            }
+        }
+
+        view.displayMessage("Животное успешно добавлено!");
+        animals.add(animal);
     }
 }
