@@ -8,7 +8,7 @@ public abstract class Animal {
     private final AnimalType type;
     private final String name;
     private final Date birthday;
-    private final List<String> commands;
+    private final List<Command> commands;
 
     public Animal(AnimalType type, String name, Date birthday) {
         this.type = type;
@@ -29,8 +29,12 @@ public abstract class Animal {
         return birthday;
     }
 
-    public List<String> getCommands() {
+    public List<Command> getCommands() {
         return commands;
+    }
+
+    public void addCommand(Command command) {
+        commands.add(command);
     }
 
     @Override
