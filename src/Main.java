@@ -37,6 +37,20 @@ public class Main {
         while (true) {
             switch (view.displayMainMenu()) {
                 case NEW_ANIMAL -> createNewAnimal();
+                case LOOKUP_ANIMALS -> {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Список животных:\n");
+                    if (animals.size() == 0) {
+                        sb.append("Пусто\n");
+                    }
+
+                    for (Animal animal : animals) {
+                        sb.append(animal.toString());
+                        sb.append("\n");
+                    }
+
+                    view.displayMessage(sb.toString());
+                }
                 case EXIT -> {
                     view.displayMessage("Bye bye!");
                     return;
