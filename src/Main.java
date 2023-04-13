@@ -18,8 +18,19 @@
     считать в ресурсе try, если при заведении животного заполнены все поля.
  */
 
+import view.ConsoleView;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        ConsoleView view = new ConsoleView();
+
+        while (true) {
+            switch (view.displayMainMenu()) {
+                case EXIT -> {
+                    view.displayMessage("Bye bye!");
+                    return;
+                }
+            }
+        }
     }
 }
