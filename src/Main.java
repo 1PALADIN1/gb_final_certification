@@ -81,23 +81,29 @@ public class Main {
     }
 
     private static void createNewAnimal() {
-        CreatedAnimal createdAnimal = view.createNewAnimal();
+        try (Counter counter = new Counter()) {
+            CreatedAnimal createdAnimal = view.createNewAnimal();
 
-        Animal animal;
-        switch (createdAnimal.getType()) {
-            case CAMEL -> animal = new Camel(createdAnimal.getName(), createdAnimal.getBirthday());
-            case CAT -> animal = new Cat(createdAnimal.getName(), createdAnimal.getBirthday());
-            case DOG -> animal = new Dog(createdAnimal.getName(), createdAnimal.getBirthday());
-            case DONKEY -> animal = new Donkey(createdAnimal.getName(), createdAnimal.getBirthday());
-            case HAMSTER -> animal = new Hamster(createdAnimal.getName(), createdAnimal.getBirthday());
-            case HORSE -> animal = new Horse(createdAnimal.getName(), createdAnimal.getBirthday());
-            default -> {
-                view.displayMessage("! Уп-с: что-то пошло не так...");
-                return;
+            Animal animal;
+            switch (createdAnimal.getType()) {
+                case CAMEL -> animal = new Camel(createdAnimal.getName(), createdAnimal.getBirthday());
+                case CAT -> animal = new Cat(createdAnimal.getName(), createdAnimal.getBirthday());
+                case DOG -> animal = new Dog(createdAnimal.getName(), createdAnimal.getBirthday());
+                case DONKEY -> animal = new Donkey(createdAnimal.getName(), createdAnimal.getBirthday());
+                case HAMSTER -> animal = new Hamster(createdAnimal.getName(), createdAnimal.getBirthday());
+                case HORSE -> animal = new Horse(createdAnimal.getName(), createdAnimal.getBirthday());
+                default -> {
+                    view.displayMessage("! Уп-с: что-то пошло не так...");
+                    return;
+                }
             }
-        }
 
-        view.displayMessage("Животное успешно добавлено!");
-        animals.add(animal);
+            view.displayMessage("Животное успешно добавлено!");
+            animals.add(animal);
+            counter.add();
+            view.displayMessage("Добавленных животных: " + counter.getCounter());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
